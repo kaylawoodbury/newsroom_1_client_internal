@@ -15,7 +15,12 @@ const onLogin = (event, dispatch) => {
     .then(response => {
       dispatch({
         type: "AUTHENTICATE",
-        payload: { authenticated: true, userEmail: response.data.email, premiumUser:response.data.premium_user }
+        payload: {
+          authenticated: true,
+          userEmail: response.data.email,
+          premiumUser: response.data.premium_user,
+          role: response.data.role
+        }
       });
       dispatch({ type: "GREETING", payload: `Welcome ${response.data.email}` });
     })
@@ -30,7 +35,12 @@ const onLogout = dispatch => {
   auth.signOut().then(() => {
     dispatch({
       type: "AUTHENTICATE",
-      payload: { authenticated: false, userEmail: null, premiumUser: false }
+      payload: {
+        authenticated: false,
+        userEmail: null,
+        premiumUser: false,
+        role: null
+      }
     });
     dispatch({ type: "GREETING", payload: "See ya!" });
   });

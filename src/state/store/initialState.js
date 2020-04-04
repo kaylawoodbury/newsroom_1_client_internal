@@ -3,6 +3,7 @@ const initialState = {
   authenticate: false,
   userEmail: undefined,
   message: "",
+  showArticleForm: false
 };
 
 export default initialState;

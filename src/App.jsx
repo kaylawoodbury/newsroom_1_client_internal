@@ -9,7 +9,8 @@ const App = props => {
     <>
       <DisplayHeader />
       {props.showLogin && <Login />}
-      <CreateArticle />
+      {props.showArticleForm && props.role === "journalist" && <CreateArticle />}
+      {props.showArticleForm && props.role !== "journalist" && <h3>You must be a journalist to view this page</h3>}
     </>
   );
 };
@@ -17,6 +18,8 @@ const App = props => {
 const mapStateToProps = state => {
   return {
     showLogin: state.showLogin,
+    showArticleForm: state.showArticleForm,
+    role: state.role
   };
 };
 

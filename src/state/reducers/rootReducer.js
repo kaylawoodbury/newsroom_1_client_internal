@@ -6,17 +6,15 @@ const rootReducer = (state = initialState, action) => {
     case actionTypes.LOGIN_USER:
       return {
         ...state,
-        showLogin: true,
-        showArticlesList: false,
-        singleArticle: undefined
+        showLogin: true
       };
 
     case actionTypes.CLOSE_LOGIN:
       return {
         ...state,
         showLogin: false,
-        showArticlesList: true,
-        message: ""
+        message: "",
+        showArticleForm: false
       };
 
     case actionTypes.GREETING:
@@ -29,6 +27,12 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.payload
+      };
+
+    case actionTypes.CREATE_ARTICLE:
+      return {
+        ...state,
+        showArticleForm: true
       };
 
     default:

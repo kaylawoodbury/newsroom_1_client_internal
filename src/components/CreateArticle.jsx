@@ -11,6 +11,7 @@ class CreateArticle extends Component {
 
   onCreate = async e => {
     e.preventDefault();
+    let headers = JSON.parse(localStorage.getItem("J-tockAuth-Storage"));
     let response = await axios.post(
       "/articles",
       {
@@ -22,7 +23,7 @@ class CreateArticle extends Component {
           image: this.state.image
         }
       },
-      { headers: { "Content-Type": "application/json" } }
+      { headers: headers }
     );
     if (response.status === 200) {
       this.setState({ message: response.data.message });
@@ -53,8 +54,9 @@ class CreateArticle extends Component {
       { key: "Sports", text: "Sports", value: "sports" },
       { key: "Culture", text: "Culture", value: "culture" }
     ];
+
     return (
-      <>
+      <div id="create">
         <Form id="new-article-form" onSubmit={this.onCreate}>
           Title{" "}
           <Form.Input id="title" placeholder="Title" key="title" width={6} />
@@ -111,12 +113,13 @@ class CreateArticle extends Component {
               </div>
             )}
           </ImageUploading>
+          <br />
           <Button id="create-article-button" type="submit">
             Create Article
           </Button>
         </Form>
         <p id="message">{this.state.message}</p>
-      </>
+      </ div>
     );
   }
 }
