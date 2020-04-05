@@ -9,6 +9,14 @@ class CreateArticle extends Component {
     image: []
   };
 
+  async componentDidMount() {
+    window.scrollTo(0, 0);
+    let locations = await getLocations()
+    this.setState({ 
+      locations: locations
+     });
+  }
+
   onCreate = async e => {
     e.preventDefault();
     let response = await axios.post(
@@ -19,6 +27,7 @@ class CreateArticle extends Component {
           lead: e.target.lead.value,
           content: e.target.content.value,
           category: this.state.selectedCategory,
+          location: this.state.selectedLocation,
           image: this.state.image
         }
       },
@@ -34,6 +43,12 @@ class CreateArticle extends Component {
   handleCategoryChange = value => {
     this.setState({
       selectedCategory: value
+    });
+  };
+
+  handleLocationChange = value => {
+    this.setState({
+      selectedLocation: value
     });
   };
 
@@ -53,6 +68,11 @@ class CreateArticle extends Component {
       { key: "Sports", text: "Sports", value: "sports" },
       { key: "Culture", text: "Culture", value: "culture" }
     ];
+
+    const locationOptions = this.state.locations.map(item => {
+      return { key: item.id, text: item.county, value: item.id }
+    })
+
     return (
       <>
         <Form id="new-article-form" onSubmit={this.onCreate}>
@@ -76,6 +96,17 @@ class CreateArticle extends Component {
             label="Categories"
             key="category"
             name="category"
+            width={6}
+          />
+          <Form.Select
+            id="location"
+            options={locationOptions}
+            onChange={(event, data) => {
+              this.handleCategoryChange(data.value);
+            }}
+            label="Country"
+            key="location"
+            name="Country"
             width={6}
           />
           <ImageUploading onChange={this.onImageDropHandler}>
